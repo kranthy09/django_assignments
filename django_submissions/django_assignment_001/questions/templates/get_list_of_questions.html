@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container-contact100">
+	<div class="wrap-contact100">
+		<form class="contact100-form validate-form">
+			<span class="contact100-form-title">
+					Questions App
+			</span> {% if list_of_questions %} {% for question in list_of_questions %}
+			<div class="wrap-input100 validate-input" data-validate="Please enter question text">
+				<a class="input100" href="/questions/{{question.id}}/get/">{{question.text}}</a>
+			</div>
+			{% endfor %} {% else %}
+			<p class="contact100-form-text">No questions are available</p>
+			{% endif %}
+		</form>
+		<a class="contact100-more-highlight-delete" href="/questions/create/">Add a Question</a>
+	</div>
+
+</div>
+
+
+
+<div id="dropDownSelect1"></div>
+
+<!--<div class="wrap-input100 validate-input" data-validate="Please enter question text">-->
+<!--                <a class="input100"-->
+<!--	   href="/questions/2/get/">Question 2</a>-->
+<!--</div>-->
+
+<!--<div class="wrap-input100 validate-input" data-validate="Please enter question text">-->
+<!--                <a class="input100"-->
+<!--	   href="/questions/3/get/">Question 3</a>-->
+<!--</div>-->
+
+<!--<div class="wrap-input100 validate-input" data-validate="Please enter question text">-->
+<!--                <a class="input100"-->
+<!--	   href="/questions/4/get/">Question 4</a>-->
+<!--</div>-->
+
+
+{% endblock %}
