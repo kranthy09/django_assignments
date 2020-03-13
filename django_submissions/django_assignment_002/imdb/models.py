@@ -19,7 +19,7 @@ class Movie(models.Model):
     name = models.CharField(max_length=100)
     movie_id = models.CharField(max_length=100, primary_key=True)
     release_date = models.DateField()
-    box_office_collection_in_crores = models.DecimalField()
+    box_office_collection_in_crores = models.FloatField()
     actor = models.ManyToManyField(Actor, through="Cast")
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
     #onyl one director directs a movie
