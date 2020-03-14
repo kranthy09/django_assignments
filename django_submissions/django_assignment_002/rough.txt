@@ -1,0 +1,23 @@
+export LD_LIBRARY_PATH=/usr/local/lib
+
+source dj_venv/bin/activate
+
+cd django/django_submissions/django_assignment_002/
+
+
+param movies_list: [
+        {
+            "movie_id": "movie_1",
+            "name": "Movie 1",
+            "actors": [
+                {
+                    "actor_id": "actor_1",
+                    "role": "hero",
+                    "is_debut_movie": False
+                }
+            ],
+            "box_office_collection_in_crores": "12.3",
+            "release_date": "2020-3-3",
+            "director_name": "Director 1"
+        }
+    ]
