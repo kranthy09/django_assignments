@@ -26,16 +26,16 @@ class Entry(models.Model):
     
     #keys associated with the tables
     authors = models.ManyToManyField(Author)
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=True)
     
     #table columns
     headline = models.CharField(max_length=255)
     body_text = models.TextField()
-    pub_date = models.DateField()
-    mod_date = models.DateField()
-    number_of_comments = models.IntegerField()
-    number_of_pingbacks = models.IntegerField()
-    rating = models.IntegerField()
+    pub_date = models.DateField(null=True)
+    mod_date = models.DateField(null=True)
+    number_of_comments = models.IntegerField(null=True)
+    number_of_pingbacks = models.IntegerField(null=True)
+    rating = models.IntegerField(null=True)
 
     def __str__(self):
         return self.headline
