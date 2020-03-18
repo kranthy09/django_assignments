@@ -2,6 +2,8 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 source dj_venv/bin/activate
 
+cd django/dj_next_lvl/topapp/
+
 cd django/django_submissions/django_assignment_002/
 
 

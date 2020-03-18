@@ -39,10 +39,15 @@ class Entry(models.Model):
 
     def __str__(self):
         return self.headline
+
+
+class EntryDetail(models.Model):
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    details = models.TextField()
     
 """
 
-entry = Entry.objects.create(blod=, 
+entry = Entry.objects.create(blog_pk=, 
                              headline = "this is entry 1",
                              body_text = "instance of Entry Class",
                              pub_date = date(2020,2,3),
