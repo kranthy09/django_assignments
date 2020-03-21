@@ -2,9 +2,13 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 source dj_venv/bin/activate
 
+cd django/django_submissions/django_assignment_003/
+
 cd django/dj_next_lvl/topapp/
 
 cd django/django_submissions/django_assignment_002/
+
+
 
 
 param movies_list: [
@@ -23,3 +27,45 @@ param movies_list: [
             "director_name": "Director 1"
         }
     ]
+
+
+SELECT website_blog.id AS blog_id,
+        website_entry.id AS entry_id,
+        website_entry_authors.author_id AS author_id
+ FROM website_blog
+    LEFT OUTER JOIN website_entry
+        ON (website_blog.id = website_entry.blog_id)
+            LEFT OUTER JOIN website_entry_authors
+                ON (website_entry.id = website_entry_authors.entry_id)
+WHERE website_entry_authors.author_id IS NULL LIMIT 21;
+
+
+SELECT website_blog.id AS blog_id,
+        website_entry.id AS entry_id,
+        website_author.id AS author_id,
+        website_author.name AS author_name
+ FROM website_blog 
+    LEFT OUTER JOIN website_entry
+        ON (website_blog.id = website_entry.blog_id)
+            LEFT OUTER JOIN website_entry_authors
+                ON (website_entry.id = website_entry_authors.entry_id)
+                    LEFT OUTER JOIN website_author
+                        ON (website_entry_authors.author_id = website_author.id)
+                            WHERE website_author.name IS NULL LIMIT 21;
+
+
+import sys
+
+import os
+
+import django
+
+sys.path.append('/home/ec-2/')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+
+django.setup()
+
+Movie.objects.filter(cast__actor__name__endswith=Charan")
+
+Director.objects.filter(movie__realease_date__year=2000)
