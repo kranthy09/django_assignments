@@ -59,10 +59,9 @@ def populate_database(actors_list, movies_list, directors_list, movie_rating_lis
     
 def get_no_of_distinct_movies_actor_acted(actor_id):
     
-    actor = Actor.objects.get(pk=actor_id)
-    actor_acted_in_movies = actor.movie_set.all().distinct().count()
+    number = Movie.objects.filter(cast__actor_id=actor_id).distinct().count()
     
-    return
+    return number
 
 def get_movies_directed_by_director(director_obj):
     

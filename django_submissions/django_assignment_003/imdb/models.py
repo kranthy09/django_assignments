@@ -14,6 +14,7 @@ class Director(models.Model):
 
 
 
+
 class Movie(models.Model):
     
     name = models.CharField(max_length=100)

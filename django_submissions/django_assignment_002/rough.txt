@@ -2,6 +2,8 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 source dj_venv/bin/activate
 
+cd django/django_submissions/django_assignment_004/
+
 cd django/django_submissions/django_assignment_003/
 
 cd django/dj_next_lvl/topapp/
@@ -69,3 +71,68 @@ django.setup()
 Movie.objects.filter(cast__actor__name__endswith=Charan")
 
 Director.objects.filter(movie__realease_date__year=2000)
+
+
+
+def get_movies_by_given_movie_names(movie_names):
+    for movie_name in movie_names:
+        movie_objects_related_to_movie_name = Movie.objects.filter(name=movie_name)
+        
+        query_each_movie = {}
+        for movie_obj in movie_objects_related_to_movie_name:
+            query_each_movie = {
+                    'movie_id' : movie_obj.movie_id,
+                    'name' : movie_obj.name
+            }
+            
+            cast_crew = Cast.objects.filter(movie__movie_id=movie_obj.movie_id)
+            value = []
+            for each_cast in cast_crew:
+                value.append({
+                        'actor' : {
+                                    'name' : Actor.objects.get(pk=each_cast.actor_id).name,
+                                    'actor_id' : each_cast.actor_id
+                                },
+                        'role' : each_cast.role,
+                        'is_debut_movie' : each_cast.is_debut_movie
+                })
+            
+            query_each_movie['cast'] = value
+            
+            query_each_movie["box_office_collection_in_crores"]: movie_obj.box_office_collection_in_crores
+            query_each_movie["release_date"] : str(movie_obj.release_date)
+            query_each_movie["director_name"]: movie_obj.director.name
+            
+            #rating
+            
+            try:
+                rating = Rating.objects.get(rating__movie_id=movie_obj.movie_id)
+            except:
+                rating_1 = 0
+                rating_2 = 0
+                rating_3 = 0
+                rating_4 = 0
+                rating_5 = 0
+            else:
+                rating_1 = movie_obj.rating.rating_one_count
+                rating_2 = movie_obj.rating.rating_two_count
+                rating_3 = movie_obj.rating.rating_three_count
+                rating_4 = movie_obj.rating.rating_four_count
+                rating_5 = movie_obj.rating.rating_five_count
+            
+            average_rating = avg_rating_function(rating_1, rating_2, rating_3,
+                                                 rating_4, rating_5)
+            
+            total_number_of_ratings = rating_1 + rating_2 + rating_3 + 
+                                      rating_4 + rating_5
+            
+            query_each_movie['average_rating'] = average_rating
+            query_each_movie['total_number_of_ratings'] = total_number_of_ratings
+    
+    return query_each_movie
+            
+            
+            
+            
+
+
