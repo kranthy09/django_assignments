@@ -1,6 +1,7 @@
 from .models import Movie, Actor, Director, Rating, Cast
 from django.db.models import Avg, Sum, Max, Min, Count, Q
 
+
 #1
 def get_average_box_office_collections():
     try:
@@ -9,12 +10,14 @@ def get_average_box_office_collections():
     except:
         return 0
 
+
 #2
 def get_movies_with_distinct_actors_count():
     
     movies = Movie.objects.annotate(actors_count = Count('cast__actor', distinct=True))
     
     return list(movies)
+
 
 #3
 def get_male_and_female_actors_count_for_each_movie():
@@ -33,8 +36,8 @@ def get_roles_count_for_each_movie():
     
     return list(movies_with_distinct_roles_count)
 
-#5
 
+#5
 def get_role_frequency():
     
     casts = Cast.objects.values('role').annotate(actors_count=Count('actor', distinct=True))
@@ -47,7 +50,6 @@ def get_role_frequency():
     
 
 #6
-
 def get_role_frequency_in_order():
     
     from collections import defaultdict
@@ -59,8 +61,8 @@ def get_role_frequency_in_order():
     
     return d
 
-#7
 
+#7
 def get_no_of_movies_and_distinct_roles_for_each_actor():
     
     actors_with_no_movies_roles_acted = Actor.objects.annotate(movies_count=Count('cast__movie'), roles_count=Count('cast__role', distinct=True))
@@ -69,3 +71,17 @@ def get_no_of_movies_and_distinct_roles_for_each_actor():
 
 
 #8
+def get_movies_with_atleast_forty_actors():
+    
+    movies_with_atleast_forty_actors = Movie.objects.annotate(actors_count=Count('cast__actor', distinct=True)).filter(actors_count__gte=40)
+    
+    return movies_with_atleast_forty_actors
+
+
+#9
+def get_average_no_of_actors_for_all_movies():
+    try:
+        avg_no_of_actors = Movie.objects.annotate(actors_count=Count('cast__actor')).aggregate(avg_no_of_actors=Avg('actors_count'))
+        return round(avg_no_of_actors['avg_no_of_actors'],3)
+    except:
+        return 0
