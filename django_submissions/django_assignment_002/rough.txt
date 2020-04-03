@@ -2,6 +2,10 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 source dj_venv/bin/activate
 
+cd django/optimization/
+
+cd django/db_optimization/db_optimization
+
 cd django/django_submissions/django_assignment_004/
 
 cd django/django_submissions/django_assignment_003/
@@ -131,7 +135,11 @@ def get_movies_by_given_movie_names(movie_names):
     
     return query_each_movie
             
-            
+
+find /home/ -name "rough.txt"
+    --> find rough.txt file in /home/ path
+
+
             
             
 

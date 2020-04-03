@@ -59,13 +59,13 @@ def get_role_frequency_in_order():
     for cast in casts_order_by:
         d[cast['role']] += cast['actors_count']
     
-    return d
+    return list(d.items())
 
 
 #7
 def get_no_of_movies_and_distinct_roles_for_each_actor():
     
-    actors_with_no_movies_roles_acted = Actor.objects.annotate(movies_count=Count('cast__movie'), roles_count=Count('cast__role', distinct=True))
+    actors_with_no_movies_roles_acted = Actor.objects.annotate(movies_count=Count('cast__movie', distinct=True), roles_count=Count('cast__role', distinct=True))
     
     return list(actors_with_no_movies_roles_acted)
 

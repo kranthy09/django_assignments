@@ -1,6 +1,7 @@
 from .models import *
 import json
 from datetime import datetime, date
+from django.db.models import Q
 
 def avg_rating_function(rating_5,rating_4,rating_3,rating_2,rating_1):
     numerator = (5*rating_5 + 4 * rating_4 + 3 * rating_3 + 2 * rating_2 + 1 * rating_1)
