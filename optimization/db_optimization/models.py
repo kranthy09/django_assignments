@@ -37,13 +37,14 @@ class Topping(models.Model):
 
 class Pizza(models.Model):
     name = models.CharField(max_length=50)
+    vegetarian = models.BooleanField(null=True, blank=True, default=False)
     toppings = models.ManyToManyField(Topping)
 
-    def __str__(self):
-        return "%s (%s)" % (
-            self.name,
-            ", ".join(topping.name for topping in self.toppings.all()),
-        )
+    # def __str__(self):
+    #     return "%s (%s)" % (
+    #         self.name,
+    #         ", ".join(topping.name for topping in self.toppings.all()),
+    #     )
 
 class Restaurant(models.Model):
     pizzas = models.ManyToManyField(Pizza, related_name='restaurants')
