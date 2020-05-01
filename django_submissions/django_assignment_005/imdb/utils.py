@@ -1,6 +1,6 @@
 from .models import Actor, Movie, Cast, Director, Rating
 from datetime import datetime
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count, Q
 
 def average_rating(rating_1, rating_2, rating_3, rating_4, rating_5):
     
@@ -79,9 +79,10 @@ def get_all_rating_objects_for_given_movies(movie_objs):
 def get_movies_by_given_movie_names(movie_names):
     
     movies = Movie.objects.filter(name__in=movie_names).select_related('director', 'rating').prefetch_related(Prefetch('actors__cast_set', to_attr='cast_in_this_movie'))
+    movie_list = []
     
-    movie_dict = {}
     for movie in movies:
+        movie_dict = {}
         movie_dict['movie_id'] = movie.movie_id
         movie_dict['name'] = movie.name
         
@@ -120,10 +121,132 @@ def get_movies_by_given_movie_names(movie_names):
             movie_dict['average_rating'] = 0
         
         movie_dict['total_number_of_ratings'] = movie.rating.rating_one_count+movie.rating.rating_two_count+movie.rating.rating_three_count+movie.rating.rating_four_count+movie.rating.rating_five_count
-        
-    return movie_dict
+        movie_list.append(movie_dict)
+    return movie_list
 
 #Task 5
 
 def get_all_actor_objects_acted_in_given_movies(movie_objs):
-    pass
+    
+    return list(Actor.objects.filter(movie__in=movie_objs).distinct())
+
+def get_female_cast_details_from_movies_having_more_than_five_female_cast():
+    
+    movie_objs = Movie.objects.annotate(count_female_actors=Count('actors', filter=Q(actors__gender='FEMALE'))).filter(count_female_actors__gte=5)
+    print(movie_objs)
+    print()
+    movies = Movie.objects.filter(movie_id__in=movie_objs).select_related('director', 'rating').prefetch_related(Prefetch('actors__cast_set', to_attr='cast_in_this_movie'))
+    print(movies)
+    print()
+
+    movie_list = []
+    for movie in movies:
+        movie_dict = {}
+        movie_dict['movie_id'] = movie.movie_id
+        movie_dict['name'] = movie.name
+        
+        cast_list = []
+        
+        for actor in movie.actors.all():
+            cast_dict = {}
+            actor_dict = {}
+            
+            actor_dict['name'] = actor.name
+            actor_dict['actor_id'] = actor.actor_id
+            
+            cast_dict['actor'] = actor_dict
+            for cast in actor.cast_in_this_movie:
+                cast_dict['role'] = cast.role
+                cast_dict['is_debut_movie'] = cast.is_debut_movie
+                
+                cast_list.append(cast_dict)
+                
+        movie_dict['cast'] = cast_list
+        
+        movie_dict['box_office_collection_in_crores'] = movie.box_office_collection_in_crores
+        
+        movie_dict['release_date'] = str(movie.release_date)
+        
+        movie_dict['director_name'] = movie.director.name
+        
+        if movie.rating:
+            movie_dict['average_rating'] = average_rating(movie.rating.rating_one_count, 
+                                                          movie.rating.rating_two_count,
+                                                          movie.rating.rating_three_count,
+                                                          movie.rating.rating_four_count,
+                                                          movie.rating.rating_five_count
+                                                         )
+        else:
+            movie_dict['average_rating'] = 0
+        
+        movie_dict['total_number_of_ratings'] = movie.rating.rating_one_count+movie.rating.rating_two_count+movie.rating.rating_three_count+movie.rating.rating_four_count+movie.rating.rating_five_count
+        movie_list.append(movie_dict)
+    return movie_list
+
+#Task 7
+
+def get_actor_movies_released_in_year_greater_than_or_equal_to_2000():
+    
+    casts = Cast.objects.filter(movie__in=Movie.objects.filter(release_date__year__gte=2000)).select_related('movie__director', 'movie__rating', 'actor').order_by('actor', 'movie')
+    movies_list = []
+    actors_list = []
+    actors_result = []
+    for cast in casts:
+        
+        if cast.actor not in actors_list:
+            actors_dict = {}
+            movie_dict_key_list = []
+            actors_list.append(cast.actor)
+            actors_dict['name'] = cast.actor.name
+            actors_dict['actor_id'] = cast.actor.actor_id
+            actors_dict['movies'] = movie_dict_key_list
+            actors_result.append(actors_dict)
+        if cast.movie not in movies_list:
+            movies_list.append(cast.movie)
+            movies_dict = {}
+            cast_list = []
+            
+            movies_dict['movie_id'] = cast.movie.movie_id
+            movies_dict['name'] = cast.movie.name
+            movies_dict['cast'] = cast_list
+            movies_dict['box_office_collection_in_crores'] = cast.movie.box_office_collection_in_crores
+            movies_dict['release_date'] = str(cast.movie.release_date)
+            movies_dict['director_name'] = cast.movie.director.name
+            if cast.movie.rating:
+                movies_dict['average_rating'] = average_rating(
+                                                            cast.movie.rating.rating_one_count,
+                                                            cast.movie.rating.rating_two_count,
+                                                            cast.movie.rating.rating_three_count,
+                                                            cast.movie.rating.rating_four_count,
+                                                            cast.movie.rating.rating_five_count
+                                                          )
+            else:
+                movies_dict['average_rating'] = 0
+            
+            movies_dict['total_number_of_ratings'] = cast.movie.rating.rating_one_count+cast.movie.rating.rating_two_count+cast.movie.rating.rating_three_count+cast.movie.rating.rating_four_count+cast.movie.rating.rating_five_count
+            movie_dict_key_list.append(movies_dict)
+        cast_list.append({
+            'role': cast.role,
+            'is_debut_movie': cast.is_debut_movie
+        })
+        
+    return actors_result
+
+    
+    
+            
+
+#Task 8
+
+def reset_ratings_for_movies_in_given_year(year):
+    
+    movies = Movie.objects.filter(release_date__year=year).select_related('rating')
+    
+    for movie in movies:
+        movie.rating.rating_one_count
+        movie.rating.rating_two_count
+        movie.rating.rating_three_count
+        movie.rating.rating_four_count
+        movie.rating.rating_five_count
+    
+    return

@@ -148,85 +148,105 @@ find /home/ -name "rough.txt"
 
 actors_list = [ 
 { 
-     "actor_id": "actor_7", 
-     "name": "Actor 3", 
+     "actor_id": "actor_9", 
+     "name": "Actor 9", 
      "gender": "MALE" 
  }, 
  { 
- "actor_id": "actor_8", 
- "name": "Actor 2", 
+ "actor_id": "actor_10", 
+ "name": "Actor 10", 
  "gender": "FEMALE" 
  },
  {
- "actor_id": "actor_5",
- "name":"Actor 3",
+ "actor_id": "actor_11",
+ "name":"Actor 11",
  "gender": "MALE"
  },
  {
- "actor_id": "actor_6",
- "name":"Actor 4",
+ "actor_id": "actor_12",
+ "name":"Actor 12",
  "gender": "FEMALE"
  }
  ]                                                                                                      
 
 movies_list = [ 
  { 
- "movie_id": "movie_3", 
- "name": "Movie 3", 
+ "movie_id": "movie_5", 
+ "name": "Movie 5", 
  "actors": [ 
  { 
- "actor_id": "actor_7", 
- "role": "hero", 
+ "actor_id": "actor_2", 
+ "role": "lead role", 
  "is_debut_movie": False 
- }, 
+ },
  { 
- "actor_id": 'actor_8', 
+ "actor_id": "actor_8", 
+ "role": "heroine friend", 
+ "is_debut_movie": False 
+ },
+ { 
+ "actor_id": "actor_6", 
+ "role": "heroine sister", 
+ "is_debut_movie": False 
+ },
+ { 
+ "actor_id": 'actor_10', 
  'role': "heroine", 
  "is_debut_movie":False 
  },
  {
- "actor_id": 'actor_5', 
+ "actor_id": 'actor_12', 
  'role': "villan", 
  "is_debut_movie":False 
  }
  ],
  "box_office_collection_in_crores": "32.3", 
  "release_date": "2020-3-3", 
- "director_name": "Director 3" 
+ "director_name": "Director 5" 
  },
  { 
- "movie_id": "movie_4", 
- "name": "Movie 4", 
+ "movie_id": "movie_6", 
+ "name": "Movie 6", 
  "actors": [ 
  { 
- "actor_id": "actor_7", 
- "role": "hero", 
+ "actor_id": "actor_2", 
+ "role": "side actress", 
  "is_debut_movie": False 
- }, 
+ },
+ { 
+ "actor_id": "actor_4", 
+ "role": "lead role", 
+ "is_debut_movie": False 
+ },
+ { 
+ "actor_id": "actor_8", 
+ "role": "heroine mother", 
+ "is_debut_movie": False 
+ },
  { 
  "actor_id": 'actor_6', 
  'role': "heroine", 
  "is_debut_movie":False 
  },
  {
- "actor_id": 'actor_5', 
+ "actor_id": 'actor_12', 
  'role': "villan", 
  "is_debut_movie":False 
  }
  ], 
  "box_office_collection_in_crores": "22.3", 
  "release_date": "2019-3-3", 
- "director_name": "Director 3" 
+ "director_name": "Director 6" 
  } 
  ]                                                                                                    
 
 directors_list= [ 
-         "Director 3", "Director 4"
+         "Director 5", "Director 6"
             ]                                                                                      
 
 movie_rating_list = [ 
  { 
- "movie_id": "movie_3", 
+ "movie_id": "movie_5", 
  "rating_one_count": 2, 
  "rating_two_count": 4, 
  "rating_three_count": 5, 
@@ -234,7 +254,7 @@ movie_rating_list = [
  "rating_five_count": 5
  },
  { 
- "movie_id": "movie_4", 
+ "movie_id": "movie_6", 
  "rating_one_count": 5, 
  "rating_two_count": 3, 
  "rating_three_count": 4, 
