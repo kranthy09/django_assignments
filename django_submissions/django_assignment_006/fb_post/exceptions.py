@@ -26,3 +26,7 @@ class InvalidReplyContent(Exception):
 class InvalidReactionTypeException(Exception):
     
     pass
+
+class UserCannotDeletePostException(Exception):
+    
+    pass
