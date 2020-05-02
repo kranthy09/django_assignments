@@ -2,6 +2,8 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 source dj_venv/bin/activate
 
+cd django/django_submissions/django_assignment_006/
+
 cd django/django_submissions/django_assignment_005/
 
 cd django/optimization/

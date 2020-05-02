@@ -244,6 +244,80 @@ def get_reactions_to_post(post_id):
                     )
     
     return reactions_of_post_list
+
+#-----------------------------------Task-13-------------------------------------------
+
+def replies_to_the_parent_comment(parent_comment, comments_list):
+    replies_list = []
+    for comment in comments_list:
+        if comment.parent_comment == parent_comment:
+            replies_list.append(comment)
+    
+    return replies_list
+
+def get_post(post_id):
+    
+    queryset = Comment.objects.select_related('commented_by').prefetch_related(Prefetch('reaction_set', to_attr='reactions'))
+    
+    post = Post.objects.filter(post_id=post_id).select_related('posted_by').prefetch_related(Prefetch('reaction_set', to_attr='reactions'), Prefetch('comment_set', queryset=queryset, to_attr='comments'))
+    
+    query_dict = {}
+    comments_list = []
+    query_dict['post_id'] = post.id
+    query_dict['posted_by'] =  {
+        "name" : post.posted_by.name,
+        'user_id' : post.posted_by.id,
+        'profile_pic' : post.posted_by.profile_pic
+    }
+    query_dict['posted_at'] = post.posted_at
+    query_dict['post_content'] = post.post_content
+    query_dict['reactions'] = {
+        "count" : len(post.reactions),
+        "type" : [reaction_obj.reaction for reaction_obj in post.reactions]
+    }
+    query_dict['comments'] = comments_list
+    comments = post.comments
+    if comments:
+        comments_list = []
+    else:
+        comment_dict = {}
+        parent_comments_list = []
+        for comment in comments:
+            if not comment.parent_comment:
+                comment.parent_comments_list
+        for parent_comment in parent_comments_list:
+            
+            replies = replies_to_the_parent_comment(parent_comment, comments)
+            comment_dict['comment_id'] = parent_comment.id
+            comment_dict['comment_content'] = parent_comment.content
+            comment_dict['reactions'] = {
+                "count" : len(parent_comment.reactions),
+                "type" : [reaction_obj.reaction for reaction_obj in parent_comment.reactions]
+            }
+            comment_dict['replies_count'] : len(replies)
+            comment_dict['replies'] : replies
+            if replies:
+                replies = []
+            else:
+                reply_dict = {}
+                for reply in replies:
+                    reply_dict['comment_id'] = reply.id
+                    reply_dict['commenter'] = {
+                        'user_id' : reply.commented_by.id,
+                        'name' : reply.commented_by.name,
+                        'profile_pic' : reply.commented_by.profile_pic
+                    }
+                    reply_dict['commented_at'] : reply.commented_at
+                    reply_dict['comment_content'] : reply.content
+                    reply['reactions'] = {
+                        "count" : len(reply.reactions),
+                        "type" : [reaction_obj.reaction for reaction_obj in reply.reactions]
+                    }
+                replies.append(reply_dict)
+            
+            #have to check about the comments_list
+            
+    return
     
 #-----------------------------------Task-15-------------------------------------------
   
